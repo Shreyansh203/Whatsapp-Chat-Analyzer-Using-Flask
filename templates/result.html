@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-center">Chat Analysis Results for {{ selected_user }}</h2>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total Messages</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ num_messages }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Total Words</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ words }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Media Shared</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ num_media_messages }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Links Shared</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ num_links }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Monthly Timeline</h3>
+<div class="chart-container">
+    <img src="data:image/png;base64,{{ monthly_timeline_plot }}" class="img-fluid" alt="Monthly Timeline">
+</div>
+
+<h3>Daily Timeline</h3>
+<div class="chart-container">
+    <img src="data:image/png;base64,{{ daily_timeline_plot }}" class="img-fluid" alt="Daily Timeline">
+</div>
+
+<h3>Activity Map</h3>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Most Busy Day</h4>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ busy_day_plot }}" class="img-fluid" alt="Most Busy Day">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h4>Most Busy Month</h4>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ busy_month_plot }}" class="img-fluid" alt="Most Busy Month">
+        </div>
+    </div>
+</div>
+
+<h3>Weekly Activity Heatmap</h3>
+<div class="chart-container">
+    <img src="data:image/png;base64,{{ heatmap_plot }}" class="img-fluid" alt="Weekly Activity Heatmap">
+</div>
+
+{% if selected_user == 'Overall' %}
+<h3>Most Busy Users</h3>
+<div class="row">
+    <div class="col-md-6">
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ busy_users_plot }}" class="img-fluid" alt="Most Busy Users">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h4>Top Users</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Messages (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in top_users.iterrows() %}
+                <tr>
+                    <td>{{ row['name'] }}</td>
+                    <td>{{ row['percent'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<h3>Wordcloud</h3>
+<div class="chart-container">
+    <img src="data:image/png;base64,{{ wordcloud_plot }}" class="img-fluid" alt="Wordcloud">
+</div>
+
+<h3>Most Common Words</h3>
+<div class="chart-container">
+    <img src="data:image/png;base64,{{ common_words_plot }}" class="img-fluid" alt="Most Common Words">
+</div>
+
+<h3>Emoji Analysis</h3>
+<div class="row">
+    <div class="col-md-6">
+        <h4>Top Emojis</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Emoji</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in emoji_df.iterrows() %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4>Emoji Distribution</h4>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ emoji_pie_plot }}" class="img-fluid" alt="Emoji Distribution">
+        </div>
+    </div>
+</div>
+{% endblock %}

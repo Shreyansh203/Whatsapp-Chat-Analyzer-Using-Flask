@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">WhatsApp Chat Analyzer</h1>
+    <p class="lead">Upload your WhatsApp chat file to get insights and statistics.</p>
+    <hr class="my-4">
+    <form method="post" action="/" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" class="form-control-file" name="chat_file" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Analyze Chat</button>
+    </form>
+</div>
+{% endblock %}
